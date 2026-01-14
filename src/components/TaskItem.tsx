@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Edit, Trash2, Clock, PlayCircle } from 'lucide-react';
+import { Edit, Trash2, Clock } from 'lucide-react';
 import { Task } from '../types';
 import { format } from 'date-fns';
 

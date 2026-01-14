@@ -1,5 +1,4 @@
 import React from 'react';
-import { Calendar as CalendarIcon, Filter, Tag } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export const RightPanel: React.FC = () => {
