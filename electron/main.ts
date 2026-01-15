@@ -4,6 +4,7 @@ import fs from 'fs';
 
 const isDev = process.env.NODE_ENV === 'development';
 const SETTINGS_FILE = path.join(app.getPath('userData'), 'window-settings.json');
+const NOTES_FILE = path.join(app.getPath('userData'), 'notes.json');
 
 interface WindowSettings {
     x?: number;
@@ -14,6 +15,28 @@ interface WindowSettings {
     isScreenSharePrivate: boolean;
     backgroundColor: string;
     opacity: number;
+}
+
+// NOTE: We treat notes as opaque JSON here. 
+// Render process handles structure.
+function loadNotes(): any[] {
+    try {
+        if (fs.existsSync(NOTES_FILE)) {
+            const data = fs.readFileSync(NOTES_FILE, 'utf-8');
+            return JSON.parse(data);
+        }
+    } catch (error) {
+        console.error('Error loading notes:', error);
+    }
+    return [];
+}
+
+function saveNotes(notes: any[]) {
+    try {
+        fs.writeFileSync(NOTES_FILE, JSON.stringify(notes, null, 2));
+    } catch (error) {
+        console.error('Error saving notes:', error);
+    }
 }
 
 let mainWindow: BrowserWindow | null = null;
@@ -64,7 +87,8 @@ function createWindow() {
         maxHeight: screenHeight,
         frame: false,
         transparent: false,
-        backgroundColor: settings.backgroundColor,
+        backgroundColor: '#121212', // Force dark background to prevent Red Screen
+        // backgroundColor: settings.backgroundColor, // Commented out to debug
         opacity: settings.opacity,
         alwaysOnTop: settings.isAlwaysOnTop,
         webPreferences: {
@@ -84,6 +108,8 @@ function createWindow() {
         mainWindow.webContents.openDevTools();
     } else {
         mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
+        // TEMPORARY: Open DevTools in production to debug loading issue
+        mainWindow.webContents.openDevTools();
     }
 
     mainWindow.once('ready-to-show', () => {
@@ -189,4 +215,13 @@ ipcMain.handle('settings:get', () => {
 ipcMain.handle('settings:save', (_event, settings: Partial<WindowSettings>) => {
     saveWindowSettings(settings);
     return loadWindowSettings();
+});
+
+ipcMain.handle('notes:get', () => {
+    return loadNotes();
+});
+
+ipcMain.handle('notes:save', (_event, notes: any[]) => {
+    saveNotes(notes);
+    return true;
 });

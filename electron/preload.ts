@@ -14,6 +14,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
     setOpacity: (opacity: number) => ipcRenderer.invoke('window:setOpacity', opacity),
     getSettings: () => ipcRenderer.invoke('settings:get'),
     saveSettings: (settings: unknown) => ipcRenderer.invoke('settings:save', settings),
+    getNotes: () => ipcRenderer.invoke('notes:get'),
+    saveNotes: (notes: unknown) => ipcRenderer.invoke('notes:save', notes),
 });
 
 export interface ElectronAPI {
@@ -29,6 +31,8 @@ export interface ElectronAPI {
     setOpacity: (opacity: number) => Promise<number>;
     getSettings: () => Promise<unknown>;
     saveSettings: (settings: unknown) => Promise<unknown>;
+    getNotes: () => Promise<any[]>;
+    saveNotes: (notes: any[]) => Promise<boolean>;
 }
 
 declare global {

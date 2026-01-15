@@ -11,9 +11,11 @@ interface UIStore {
     isFocusMode: boolean;
     activeModal: string | null;
     sidebarCollapsed: boolean;
+    activeView: 'tasks' | 'notes';
 
     // Actions
     setTheme: (theme: 'light' | 'dark' | 'system') => void;
+    setActiveView: (view: 'tasks' | 'notes') => void;
     setBackgroundColor: (color: string) => void;
     setAccentColor: (color: string) => void;
     setOpacity: (opacity: number) => void;
@@ -45,6 +47,9 @@ export const useUIStore = create<UIStore>()(
             isFocusMode: false,
             activeModal: null,
             sidebarCollapsed: false,
+            activeView: 'tasks',
+
+            setActiveView: (view) => set({ activeView: view }),
 
             setTheme: (theme) => {
                 set({ theme });

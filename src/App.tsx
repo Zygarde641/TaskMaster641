@@ -1,6 +1,7 @@
 import { Sidebar } from './components/Sidebar';
 import { RightPanel } from './components/RightPanel';
 import { TaskList } from './components/TaskList';
+import { NotesView } from './components/NotesView';
 import { TitleBar } from './components/TitleBar';
 import { Modal } from './components/ui/Modal';
 import { TaskForm } from './components/TaskForm';
@@ -79,29 +80,38 @@ function App() {
 
                 {/* Center Column: Main Content */}
                 <div className="flex-1 h-full min-w-0 relative flex flex-col z-10 bg-background">
-                    {/* Header Area */}
-                    <div className="px-8 pt-8 pb-4">
-                        <h1 className="text-4xl font-bold bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent">
-                            {greeting}.
-                        </h1>
-                        <p className="text-gray-500 text-lg mt-1 font-medium">What's your plan for today?</p>
-                    </div>
+                    {useUIStore.getState().activeView === 'tasks' ? (
+                        <>
+                            {/* Header Area */}
+                            <div className="px-8 pt-8 pb-4">
+                                <h1 className="text-4xl font-bold bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent">
+                                    {greeting}.
+                                </h1>
+                                <p className="text-gray-500 text-lg mt-1 font-medium">What's your plan for today?</p>
+                            </div>
 
-                    {/* Quick Add Input */}
-                    <div className="px-8 mb-6">
-                        <button
-                            onClick={() => openModal('new-task')}
-                            className="w-full bg-surface hover:bg-white/10 text-gray-400 text-left p-4 rounded-xl transition-all border border-white/5 flex items-center gap-3 group"
-                        >
-                            <span className="text-xl font-light group-hover:text-primary transition-colors">+</span>
-                            <span className="font-medium">Add Todo</span>
-                        </button>
-                    </div>
+                            {/* Quick Add Input */}
+                            <div className="px-8 mb-6">
+                                <button
+                                    onClick={() => openModal('new-task')}
+                                    className="w-full bg-surface hover:bg-white/10 text-gray-400 text-left p-4 rounded-xl transition-all border border-white/5 flex items-center gap-3 group"
+                                >
+                                    <span className="text-xl font-light group-hover:text-primary transition-colors">+</span>
+                                    <span className="font-medium">Add Todo</span>
+                                </button>
+                            </div>
 
-                    {/* Task List Container */}
-                    <div className="flex-1 overflow-y-auto px-2 pb-4 scrollbar-hide">
-                        <TaskList />
-                    </div>
+                            {/* Task List Container */}
+                            <div className="flex-1 overflow-y-auto px-2 pb-4 scrollbar-hide">
+                                <TaskList />
+                            </div>
+                        </>
+                    ) : (
+                        // Notes View
+                        <div className="flex-1 h-full overflow-hidden">
+                            <NotesView />
+                        </div>
+                    )}
                 </div>
 
                 {/* Right Column: Widgets */}
