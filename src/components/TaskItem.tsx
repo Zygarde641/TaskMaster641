@@ -61,15 +61,21 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task, onToggle, onEdit, onDe
                         {task.title}
                     </h3>
 
-                    {/* Tag / Project / Priority */}
+                    {/* Status & Priority */}
                     <div className="flex items-center gap-2 text-xs">
                         {task.priority !== 'low' && (
                             <span className={`font-medium ${priorityColors[task.priority]} px-2 py-1 rounded-lg bg-white/5`}>
                                 {task.priority}
                             </span>
                         )}
-                        <span className="text-gray-500 font-medium px-2 py-1 rounded-lg bg-white/5">
-                            #tasks
+                        <span className={`font-medium px-2 py-1 rounded-lg ${task.status === 'done' ? 'bg-green-500/20 text-green-400' :
+                                task.status === 'in-progress' ? 'bg-blue-500/20 text-blue-400' :
+                                    task.status === 'dropped' ? 'bg-gray-500/20 text-gray-400' :
+                                        'bg-white/5 text-gray-400'
+                            }`}>
+                            {task.status === 'in-progress' ? 'In Progress' :
+                                task.status === 'dropped' ? 'Dropped' :
+                                    task.status === 'done' ? 'Done' : 'To Do'}
                         </span>
                     </div>
                 </div>

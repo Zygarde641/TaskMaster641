@@ -31,6 +31,13 @@ export const TaskList: React.FC = () => {
         }
     };
 
+    const handleStatusChange = (status: 'todo' | 'in-progress' | 'done' | 'dropped') => {
+        if (contextMenu) {
+            updateTask(contextMenu.taskId, { status });
+            setContextMenu(null);
+        }
+    };
+
 
     const filteredTasks = useMemo(() => {
         let filtered = tasks;
@@ -293,6 +300,25 @@ export const TaskList: React.FC = () => {
                     y={contextMenu.y}
                     onClose={() => setContextMenu(null)}
                 >
+                    {/* Change Status Section */}
+                    <div className="text-xs font-semibold text-gray-500 px-3 py-2 uppercase tracking-wide">
+                        Change Status
+                    </div>
+                    <ContextMenuItem onClick={() => handleStatusChange('todo')}>
+                        <span className="text-gray-400">📋 To Do</span>
+                    </ContextMenuItem>
+                    <ContextMenuItem onClick={() => handleStatusChange('in-progress')}>
+                        <span className="text-blue-400">⚡ In Progress</span>
+                    </ContextMenuItem>
+                    <ContextMenuItem onClick={() => handleStatusChange('done')}>
+                        <span className="text-green-400">✅ Done</span>
+                    </ContextMenuItem>
+                    <ContextMenuItem onClick={() => handleStatusChange('dropped')}>
+                        <span className="text-gray-500">❌ Dropped</span>
+                    </ContextMenuItem>
+
+                    <ContextMenuSeparator />
+
                     <div className="text-xs font-semibold text-gray-500 px-3 py-2 uppercase tracking-wide">
                         Move to List
                     </div>
