@@ -4,7 +4,7 @@ export interface Task {
     description?: string;
     dueDate?: string;
     priority: 'high' | 'medium' | 'low';
-    status: 'todo' | 'in-progress' | 'done';
+    status: 'todo' | 'in-progress' | 'done' | 'dropped';
     projectId?: string;
     parentTaskId?: string;
     isRecurring: boolean;
@@ -88,7 +88,7 @@ export interface AppSettings {
 }
 
 export interface FilterOptions {
-    status?: ('todo' | 'in-progress' | 'done')[];
+    status?: ('todo' | 'in-progress' | 'done' | 'dropped')[];
     priority?: ('high' | 'medium' | 'low')[];
     tags?: string[];
     projects?: string[];
