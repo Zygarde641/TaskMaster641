@@ -132,10 +132,6 @@ function createWindow() {
         mainWindow.webContents.openDevTools();
     }
 
-    mainWindow.once('ready-to-show', () => {
-        mainWindow?.show();
-    });
-
     mainWindow.on('moved', () => {
         if (mainWindow) {
             const [x, y] = mainWindow.getPosition();

@@ -1,6 +1,6 @@
 {
     "name": "taskmaster-desktop",
-    "version": "2.1.0",
+    "version": "2.3.0",
     "description": "A feature-rich cross-platform desktop to-do list application",
     "main": "dist-electron/main.js",
     "author": "Your Name",
